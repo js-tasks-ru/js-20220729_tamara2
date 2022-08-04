@@ -1,5 +1,5 @@
 function compare(str1, str2) {
-  return str1.localeCompare(str2, [], {caseFirst: 'upper'});
+  return str1.localeCompare(str2, ['ru', 'en'], {caseFirst: 'upper'});
 }
 
 /**
@@ -9,5 +9,17 @@ function compare(str1, str2) {
  * @returns {string[]}
  */
 export function sortStrings(arr, param = 'asc') {
-  return [...arr].sort((a, b) => param === 'asc' ? compare(a, b) : compare(b, a))
+  return [...arr].sort((a, b) => {
+    switch (param) {
+    case 'desc': {
+      return compare(b, a);
+    }
+    case 'asc': {
+      return compare(a, b);
+    }
+    default: {
+      throw new Error('param must be asc or desc');
+    }
+    }
+  });
 }
